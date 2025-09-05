@@ -8,7 +8,7 @@
 </head>
 <body>
     <header class="header-bg-img">
-        <img src="Untitled.png" alt="Header Background" class="header-bg-img-el">
+        <img src="background.png" alt="Header Background" class="header-bg-img-el">
         <div class="header-overlay">
             <div class="logo">
                 <img src="mahakallogo.jpg" alt="Mahakal Matka Logo" style="height:150px; width:auto; vertical-align:middle; margin-right:10px; margin-top:-150px;">
@@ -506,6 +506,26 @@
         });
         // Hide all answers by default
         document.querySelectorAll('.faq-answer').forEach(a => a.style.display = 'none');
+
+        // Winners marquee duplication for seamless scroll
+        (function() {
+            const list = document.querySelector('.winners-list');
+            if (!list) return;
+            // Only duplicate if not already duplicated
+            if (list.dataset.marqueeInit) return;
+            list.dataset.marqueeInit = 'true';
+            // Measure original width
+            const originalCards = Array.from(list.children);
+            const originalWidth = originalCards.reduce((w, el) => w + el.getBoundingClientRect().width + parseFloat(getComputedStyle(list).columnGap || getComputedStyle(list).gap || 0), 0);
+            // Set CSS variable for animation distance
+            list.style.setProperty('--winners-width', originalWidth + 'px');
+            // Clone cards and append for seamless loop
+            originalCards.forEach(card => {
+                const dup = card.cloneNode(true);
+                dup.classList.add('clone');
+                list.appendChild(dup);
+            });
+        })();
         </script>
     </main>
     <footer>
@@ -535,7 +555,7 @@
         <div class="footer-bottom">
             <div class="footer-copyright">
                 Copyright &copy; 2025 - Mahakal Matka. All Rights Reserved<br>
-                Powered by DP777 ONLINE GAMES
+                Powered by Mahakal Matka ONLINE GAMES
             </div>
             <div class="footer-terms">
                 <a href="#">Terms &amp; Conditions</a>

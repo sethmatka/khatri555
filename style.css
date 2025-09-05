@@ -8,8 +8,8 @@
 }
 .header-bg-img-el {
     margin-top: -30px;
-    width: 700vw;
-    min-height: 50px;
+    width: 300vw;
+    min-height: 100px;
     object-fit:contain;
 }
 .header-overlay {
@@ -468,6 +468,7 @@ h1 {
 .top-winners {
     margin: 60px 0 30px 0;
     text-align: center;
+    overflow: hidden; /* hide scrolling overflow */
 }
 .top-winners h2 {
     font-size: 2.2em;
@@ -480,10 +481,17 @@ h1 {
 }
 .winners-list {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 32px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* single row for marquee */
     margin-bottom: 30px;
+    animation: winners-marquee 2s linear infinite; /* faster scroll */
+}
+.winners-list:hover { animation-play-state: paused; }
+.winner-card { flex: 0 0 auto; }
+@keyframes winners-marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-1 * var(--winners-width, 50%))); }
 }
 .winner-card {
     background: #fff;
@@ -576,11 +584,13 @@ h1 {
     text-align: center;
 }
 @media (max-width: 900px) {
-    .winners-list, .rates-grid {
+    .rates-grid {
         flex-direction: column;
         display: flex;
         gap: 18px;
     }
+    /* Keep winners marquee horizontal on small screens */
+    .winners-list { gap: 24px; animation-duration: 5s; }
 }
 @media (max-width: 700px) {
     header {
