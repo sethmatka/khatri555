@@ -526,6 +526,29 @@
                 list.appendChild(dup);
             });
         })();
+
+        // Reveal animations for rate and game cards
+        (function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            function applyDelays(nodeList, baseClass) {
+                nodeList.forEach((el, idx) => {
+                    const delayClass = 'reveal-delay-' + ((idx % 8) + 1);
+                    el.classList.add(delayClass);
+                    observer.observe(el);
+                });
+            }
+
+            applyDelays(document.querySelectorAll('.rates-grid .rate-card'), 'rate-card');
+            applyDelays(document.querySelectorAll('.games-grid .game-card'), 'game-card');
+        })();
         </script>
     </main>
     <footer>
@@ -564,4 +587,3 @@
     </footer>
 </body>
 </html>
-
